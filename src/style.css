@@ -6,8 +6,9 @@ div {
 }
 .banner {
   background: rgb(8, 115, 238);
-  width: 100%;
-  text-align: end;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-radius: 0.2rem;
   padding: 10px;
   color: white;
@@ -16,7 +17,7 @@ div {
   border: 1px solid white;
   border-radius: 0.5rem;
   padding: 10px;
-  width: 150px;
+  width: 30%;
 }
 .message-head {
   font-size: 10px;

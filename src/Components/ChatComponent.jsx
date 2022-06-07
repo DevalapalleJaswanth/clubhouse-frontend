@@ -61,13 +61,14 @@ export default function ChatComponent() {
     setMessage('');
   };
   return (
-    <div style={{ position: 'relative', width: '420px' }}>
+    <div style={{ position: 'relative', width: '100%' }}>
       <div
         onClick={() => {
           onExit();
         }}
         className="banner"
       >
+        <div style={{ fontSize: '20px' }}>{room && room.name}</div>
         <span
           style={{
             cursor: 'pointer',
@@ -86,7 +87,7 @@ export default function ChatComponent() {
               key={i}
               style={{
                 position: ele.fromID == user.id && 'relative',
-                left: ele.fromID == user.id && '270px',
+                left: ele.fromID == user.id && '68%',
               }}
               className="message"
             >
@@ -110,8 +111,7 @@ export default function ChatComponent() {
       </div>
       <div style={{ position: 'fixed', bottom: '1px', display: 'flex' }}>
         <textarea
-          rows="1.9"
-          cols="50"
+          col="50%"
           value={message}
           onChange={(e) => {
             setMessage(e.target.value);
