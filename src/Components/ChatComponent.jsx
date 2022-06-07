@@ -118,7 +118,7 @@ export default function ChatComponent() {
           }}
         >
           <textarea
-            rows="1"
+            rows="2"
             cols="50"
             value={message}
             onChange={(e) => {
