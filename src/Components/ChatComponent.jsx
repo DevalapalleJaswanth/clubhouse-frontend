@@ -109,27 +109,37 @@ export default function ChatComponent() {
             </div>
           ))}
       </div>
-      <div style={{ position: 'fixed', bottom: '1px', display: 'flex' }}>
-        <textarea
-          col="50%"
-          value={message}
-          onChange={(e) => {
-            setMessage(e.target.value);
-          }}
-        />
-        <button
-          onClick={() => {
-            message !== '' && SendMessage();
-          }}
-          onKeyPress={(event) => {
-            const keyCode = event.keyCode;
-            if (message !== '' && keyCode === 13) {
-              SendMessage();
-            }
+      <div className="center">
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '0px',
+            display: 'flex',
           }}
         >
-          send
-        </button>
+          <textarea
+            rows="1"
+            cols="50"
+            value={message}
+            onChange={(e) => {
+              setMessage(e.target.value);
+            }}
+            // onKeyPress={(event) => {
+            //   const keyCode = event.keyCode;
+            //   console.log(keyCode);
+            //   if (message !== '' && keyCode === 13) {
+            //     SendMessage();
+            //   }
+            // }}
+          />
+          <button
+            onClick={() => {
+              message !== '' && SendMessage();
+            }}
+          >
+            send
+          </button>
+        </div>
       </div>
     </div>
   );
