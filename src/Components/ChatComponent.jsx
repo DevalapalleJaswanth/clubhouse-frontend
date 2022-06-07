@@ -113,7 +113,7 @@ export default function ChatComponent() {
         <div
           style={{
             position: 'fixed',
-            bottom: '0px',
+            bottom: '5px',
             display: 'flex',
           }}
         >
