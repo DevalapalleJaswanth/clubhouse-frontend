@@ -2,12 +2,15 @@ import React, { useEffect, useState, useContext } from 'react';
 import { ClubHouseContext } from '../ClubHouseContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
+//import ScrollToBottom from 'react-scroll-to-bottom';
+import { Link } from 'react-scroll';
 export default function ChatComponent() {
   const [message, setMessage] = useState('');
   const [room, setRoom] = useState();
   const navigate = useNavigate();
   const { id } = useParams();
   const { user, rooms, setRooms } = useContext(ClubHouseContext);
+
   useEffect(() => {
     let temp =
       rooms &&
@@ -19,6 +22,7 @@ export default function ChatComponent() {
       });
     //console.log(temp, 'temp');
     if (temp && temp.length > 0) setRoom(temp[0]);
+    //scrollToBottom();
   }, [rooms]);
 
   const onExit = () => {
@@ -61,7 +65,7 @@ export default function ChatComponent() {
     setMessage('');
   };
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
+    <>
       <div
         onClick={() => {
           onExit();
@@ -79,68 +83,76 @@ export default function ChatComponent() {
           Exit
         </span>
       </div>
-      <div style={{ position: 'relative' }}>
-        {room &&
-          room.chatMessages &&
-          room.chatMessages.map((ele, i) => (
-            <div
-              key={i}
-              style={{
-                position: ele.fromID == user.id && 'relative',
-                left: ele.fromID == user.id && '68%',
-              }}
-              className="message"
-            >
-              <div className="message-head">
-                {ele.fromID === user.id ? 'You' : ele.fromID}
-              </div>
+      <div style={{ width: '100%', height: '100%' }}>
+        <div style={{ position: 'relative' }}>
+          {room &&
+            room.chatMessages &&
+            room.chatMessages.map((ele, i) => (
               <div
-                className="message-body"
+                key={i}
                 style={{
-                  background:
-                    ele.fromID == user.id
-                      ? 'rgb(16, 4, 128)'
-                      : 'rgb(8, 115, 238)',
+                  position: ele.fromID == user.id && 'relative',
+                  left: ele.fromID == user.id && '68%',
                 }}
+                className="message"
               >
-                {ele.message}
+                <div className="message-head">
+                  {ele.fromID === user.id ? 'You' : ele.fromID}
+                </div>
+                <div
+                  className="message-body"
+                  style={{
+                    background:
+                      ele.fromID == user.id
+                        ? 'rgb(16, 4, 128)'
+                        : 'rgb(8, 115, 238)',
+                  }}
+                >
+                  {ele.message}
+                </div>
+                <div className="message-foot">{ele.time}</div>
               </div>
-              <div className="message-foot">{ele.time}</div>
-            </div>
-          ))}
-      </div>
-      <div className="center">
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '5px',
-            display: 'flex',
-          }}
-        >
-          <textarea
-            rows="2"
-            cols="50"
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
-            // onKeyPress={(event) => {
-            //   const keyCode = event.keyCode;
-            //   console.log(keyCode);
-            //   if (message !== '' && keyCode === 13) {
-            //     SendMessage();
-            //   }
-            // }}
-          />
-          <button
-            onClick={() => {
-              message !== '' && SendMessage();
+            ))}
+        </div>
+
+        <div className="center" id="input">
+          <div
+            style={{
+              position: 'relative',
+              bottom: '-150px',
+              display: 'flex',
             }}
           >
-            send
-          </button>
+            <textarea
+              rows="2"
+              cols="50"
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+              // onKeyPress={(event) => {
+              //   const keyCode = event.keyCode;
+              //   console.log(keyCode);
+              //   if (message !== '' && keyCode === 13) {
+              //     SendMessage();
+              //   }
+              // }}
+            />
+
+            <Link
+              to="input"
+              spy={true}
+              smooth={true}
+              onClick={() => {
+                message !== '' && SendMessage();
+              }}
+              className="send-button"
+            >
+              Send
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

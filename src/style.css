@@ -4,6 +4,9 @@ div {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+.root-class {
+  height: 600;
+}
 .banner {
   background: rgb(8, 115, 238);
   display: flex;
@@ -12,9 +15,13 @@ div {
   border-radius: 0.2rem;
   padding: 10px;
   color: white;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+  z-index: 1;
 }
 .message {
-  border: 1px solid white;
+  /* border: 1px solid white; */
   border-radius: 0.5rem;
   padding: 10px;
   width: 30%;
@@ -40,4 +47,11 @@ div {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.send-button {
+  border: 1px solid black;
+  text-align: center;
+  padding: 10px;
+  cursor:pointer;
 }
