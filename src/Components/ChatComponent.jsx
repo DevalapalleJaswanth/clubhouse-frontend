@@ -65,7 +65,7 @@ export default function ChatComponent() {
     setMessage('');
   };
   return (
-    <>
+    <div>
       <div
         onClick={() => {
           onExit();
@@ -83,7 +83,7 @@ export default function ChatComponent() {
           Exit
         </span>
       </div>
-      <div style={{ width: '100%', height: '100%' }}>
+      <div className="chat-window">
         <div style={{ position: 'relative' }}>
           {room &&
             room.chatMessages &&
@@ -118,14 +118,14 @@ export default function ChatComponent() {
         <div className="center" id="input">
           <div
             style={{
-              position: 'relative',
-              bottom: '-150px',
+              position: 'fixed',
+              bottom: '10px',
               display: 'flex',
             }}
           >
             <textarea
               rows="2"
-              cols="50"
+              cols="30"
               value={message}
               onChange={(e) => {
                 setMessage(e.target.value);
@@ -137,6 +137,7 @@ export default function ChatComponent() {
               //     SendMessage();
               //   }
               // }}
+              className="text-area"
             />
 
             <Link
@@ -153,6 +154,6 @@ export default function ChatComponent() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

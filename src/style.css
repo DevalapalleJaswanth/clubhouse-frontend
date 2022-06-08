@@ -4,8 +4,11 @@ div {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-.root-class {
-  height: 600;
+
+.chat-window {
+  background-color: rgb(224, 246, 253);
+  padding: 10px;
+  min-height: 100vh;
 }
 .banner {
   background: rgb(8, 115, 238);
@@ -17,7 +20,7 @@ div {
   color: white;
   position: -webkit-sticky;
   position: sticky;
-  top: 10px;
+  top: 0px;
   z-index: 1;
 }
 .message {
@@ -25,7 +28,7 @@ div {
   border-radius: 0.5rem;
   padding: 10px;
   width: 30%;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 .message-head {
   font-size: 10px;
@@ -53,5 +56,18 @@ div {
   border: 1px solid black;
   text-align: center;
   padding: 10px;
-  cursor:pointer;
+  cursor: pointer;
+  background: rgb(8, 115, 238);
+  color: white;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.text-area {
+  border-radius: 0.5rem 0.5rem 0;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
