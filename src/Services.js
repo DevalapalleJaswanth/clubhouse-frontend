@@ -1,5 +1,5 @@
-const roomURL = '';
-const userURL = '';
+const roomURL = 'https://club-house-app.herokuapp.com/rooms/';
+const userURL = 'https://club-house-app.herokuapp.com/users/';
 import axios from 'axios';
 
 export const signIn = async (data) => {
