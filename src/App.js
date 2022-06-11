@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './style.css';
 import { ClubHouseContext } from './ClubHouseContext';
-import { RoomsListComponent, ChatComponent } from './Components/index';
+import {
+  RoomsListComponent,
+  ChatComponent,
+  LoginComponent,
+} from './Components/index';
 import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
 export default function App() {
-  const [user, setUser] = useState({
-    name: 'Jaswanth Reddy',
-    id: 'Jaswanth',
-  });
+  const [user, setUser] = useState();
   const [rooms, setRooms] = useState([
     {
       id: 1,
@@ -81,11 +82,12 @@ export default function App() {
   ]);
   return (
     <div>
-      <ClubHouseContext.Provider value={{ rooms, setRooms, user }}>
+      <ClubHouseContext.Provider value={{ rooms, setRooms, user, setUser }}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RoomsListComponent />} />
-            <Route path="/room/:id" element={<ChatComponent />} />
+            <Route path="/" element={<LoginComponent />} />
+            <Route path={`/rooms/:id`} element={<RoomsListComponent />} />
+            <Route path={`/room/:id`} element={<ChatComponent />} />
           </Routes>
         </BrowserRouter>
       </ClubHouseContext.Provider>

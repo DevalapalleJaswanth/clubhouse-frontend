@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { ClubHouseContext } from '../ClubHouseContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RoomsMakingComponent from './RoomsMakingComponent';
 
 export default function RoomsListComponent() {
   const navigate = useNavigate();
   const [ShowForm, setShowForm] = useState(false);
+  const { id } = useParams();
   const { user, rooms, setRooms } = useContext(ClubHouseContext);
   const onJoin = (room) => {
     let temp = [...rooms];
@@ -19,9 +20,9 @@ export default function RoomsListComponent() {
     });
     setRooms(temp1);
     //console.log(rooms, temp1);
-    navigate(`/room/${room.id}`);
+    navigate(`/room/${id && id}?${room.id}`);
   };
-  console.log(rooms);
+  console.log(rooms, user);
   return (
     <div>
       <button

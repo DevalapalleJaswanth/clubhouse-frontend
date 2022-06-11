@@ -1,16 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { ClubHouseContext } from '../ClubHouseContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import moment from 'moment';
 //import ScrollToBottom from 'react-scroll-to-bottom';
 import { Link } from 'react-scroll';
+import { getUserById } from '../Services.js';
 export default function ChatComponent() {
   const [message, setMessage] = useState('');
   const [room, setRoom] = useState();
   const navigate = useNavigate();
-  const { id } = useParams();
-  const { user, rooms, setRooms } = useContext(ClubHouseContext);
-
+  const params = useParams();
+  const { search } = useLocation();
+  let id = +search[1];
+  const { user, setUser, rooms, setRooms } = useContext(ClubHouseContext);
+  console.log(search);
   useEffect(() => {
     let temp =
       rooms &&
@@ -23,6 +26,17 @@ export default function ChatComponent() {
     //console.log(temp, 'temp');
     if (temp && temp.length > 0) setRoom(temp[0]);
     //scrollToBottom();
+
+    !user &&
+      getUserById(params.id)
+        .then((result) => {
+          if (result.status == 200) {
+            setUser(result.data);
+          } else {
+            console.log(result.code);
+          }
+        })
+        .catch((err) => console.log(err));
   }, [rooms]);
 
   const onExit = () => {
@@ -31,7 +45,7 @@ export default function ChatComponent() {
       if (item.id == room.id) {
         let members = [...item.members];
         let index = members.filter((ele, j) => {
-          if (ele.id == user.id) {
+          if (ele._id == user._id) {
             return j;
           }
         });
@@ -53,7 +67,7 @@ export default function ChatComponent() {
       if (item.id == room.id) {
         let chatMessages = [...item.chatMessages];
         chatMessages.push({
-          fromID: user.id,
+          fromID: user.name,
           message: message,
           time: moment().format('DD-MMMM-YYYY hh:mm A'),
         });
@@ -64,6 +78,8 @@ export default function ChatComponent() {
     setRooms(temp1);
     setMessage('');
   };
+
+  //console.log(user);
   return (
     <div>
       <div
@@ -91,19 +107,19 @@ export default function ChatComponent() {
               <div
                 key={i}
                 style={{
-                  position: ele.fromID == user.id && 'relative',
-                  left: ele.fromID == user.id && '68%',
+                  position: user && ele.fromID == user.name && 'relative',
+                  left: user && ele.fromID == user.name && '68%',
                 }}
                 className="message"
               >
                 <div className="message-head">
-                  {ele.fromID === user.id ? 'You' : ele.fromID}
+                  {user && ele.fromID === user.name ? 'You' : ele.fromID}
                 </div>
                 <div
                   className="message-body"
                   style={{
                     background:
-                      ele.fromID == user.id
+                      user && ele.fromID == user.name
                         ? 'rgb(16, 4, 128)'
                         : 'rgb(8, 115, 238)',
                   }}
