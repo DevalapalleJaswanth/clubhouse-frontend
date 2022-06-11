@@ -24,31 +24,34 @@ export default function RoomsListComponent() {
   };
   console.log(rooms, user);
   return (
-    <div>
-      <button
-        onClick={() => {
-          setShowForm(!ShowForm);
-        }}
-      >
-        Room +
-      </button>
+    <div className="center room-window">
+      <div>
+        <button
+          onClick={() => {
+            setShowForm(!ShowForm);
+          }}
+        >
+          Room +
+        </button>
 
-      {rooms &&
-        rooms.map((room, i) => (
-          <div key={i}>
-            <h3>{room.name}</h3>
-            <div className="flex-between">
-              <div>Created by {room.creatorID}</div>
-              <div
-                onClick={() => {
-                  onJoin(room);
-                }}
-              >
-                Join
+        {rooms &&
+          rooms.map((room, i) => (
+            <div key={i} className="card">
+              <h3>{room.name}</h3>
+              <div className="flex-between">
+                <div className="badge">Created by {room.creatorID}</div>
+                <div
+                  onClick={() => {
+                    onJoin(room);
+                  }}
+                  className="join-button"
+                >
+                  Join
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+      </div>
       <>
         {ShowForm === true && (
           <RoomsMakingComponent setShowForm={setShowForm} />

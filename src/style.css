@@ -71,3 +71,65 @@ div {
   align-items: center;
   justify-content: space-between;
 }
+
+.room-window {
+  background-color: rgb(224, 246, 253);
+  min-height: 100vh;
+}
+
+.card {
+  width: 900px;
+  min-width: 250px;
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  padding: 10px;
+  margin: 20px;
+  background-color: rgb(8, 115, 238);
+  color: white;
+  transition: 0.65s;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+@media (max-width: 1000px) {
+  .card {
+    width: 900px;
+    border: 1px solid white;
+  }
+}
+
+@media (max-width: 800px) {
+  .card {
+    width: 600px;
+    border: 1px solid white;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    width: 300px;
+    border: 1px solid white;
+  }
+}
+
+@media (max-width: 300px) {
+  .card {
+    width: 200px;
+    border: 1px solid white;
+  }
+}
+
+.join-button {
+  background-color: rgb(224, 246, 253);
+  border-radius: 0.8rem;
+  padding: 3px 8px;
+  color: rgb(8, 115, 238);
+  cursor: pointer;
+}
+.badge {
+  background-color: rgb(224, 246, 253);
+  border-radius: 0.8rem;
+  padding: 3px 8px;
+  color: rgb(8, 115, 238);
+  font-size: 10px;
+}

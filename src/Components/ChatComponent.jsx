@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { ClubHouseContext } from '../ClubHouseContext';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import moment from 'moment';
+import TextField from '@mui/material/TextField';
 //import ScrollToBottom from 'react-scroll-to-bottom';
 import { Link } from 'react-scroll';
 import { getUserById } from '../Services.js';
@@ -44,11 +45,13 @@ export default function ChatComponent() {
     let temp1 = temp.map((item, i) => {
       if (item.id == room.id) {
         let members = [...item.members];
-        let index = members.filter((ele, j) => {
-          if (ele._id == user._id) {
-            return j;
-          }
-        });
+        let index =
+          user &&
+          members.filter((ele, j) => {
+            if (ele._id == user._id) {
+              return j;
+            }
+          });
         members.splice(index[0], 1);
         return { ...item, members: [...members] };
       }
@@ -63,18 +66,20 @@ export default function ChatComponent() {
 
   const SendMessage = () => {
     let temp = [...rooms];
-    let temp1 = temp.map((item, i) => {
-      if (item.id == room.id) {
-        let chatMessages = [...item.chatMessages];
-        chatMessages.push({
-          fromID: user.name,
-          message: message,
-          time: moment().format('DD-MMMM-YYYY hh:mm A'),
-        });
-        return { ...item, chatMessages: [...chatMessages] };
-      }
-      return item;
-    });
+    let temp1 =
+      user &&
+      temp.map((item, i) => {
+        if (item.id == room.id) {
+          let chatMessages = [...item.chatMessages];
+          chatMessages.push({
+            fromID: user.name,
+            message: message,
+            time: moment().format('DD-MMMM-YYYY hh:mm A'),
+          });
+          return { ...item, chatMessages: [...chatMessages] };
+        }
+        return item;
+      });
     setRooms(temp1);
     setMessage('');
   };
@@ -139,7 +144,18 @@ export default function ChatComponent() {
               display: 'flex',
             }}
           >
-            <textarea
+            <TextField
+              id="filled-multiline-flexible"
+              label="Multiline"
+              multiline
+              maxRows={4}
+              value={value}
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+              variant="filled"
+            />
+            {/* <textarea
               rows="2"
               cols="30"
               value={message}
@@ -154,7 +170,7 @@ export default function ChatComponent() {
               //   }
               // }}
               className="text-area"
-            />
+            /> */}
 
             <Link
               to="input"
