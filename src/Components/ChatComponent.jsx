@@ -18,21 +18,8 @@ export default function ChatComponent() {
   const { user, setUser, rooms, setRooms, allRooms, setAllRooms } =
     useContext(ClubHouseContext);
   const [showEmojiPanel, setshowEmojiPanel] = useState(false);
-  console.log(search, id);
+  // console.log(search, id);
   useEffect(() => {
-    // let temp =
-    //   rooms &&
-    //   id &&
-    //   rooms.filter((ele, i) => {
-    //     console.log(ele.id, id);
-    //     if (ele.id == id) {
-    //       return ele;
-    //     }
-    //   });
-    // console.log(temp, 'temp');
-    // if (temp && temp.length > 0) setRoom(temp[0]);
-    //scrollToBottom();
-
     let temproom =
       allRooms &&
       id &&
@@ -41,7 +28,7 @@ export default function ChatComponent() {
           return ele;
         }
       });
-    console.log(temproom, 'temp');
+
     if (temproom && temproom.length > 0) setRoom(temproom[0]);
 
     !user &&
@@ -57,24 +44,6 @@ export default function ChatComponent() {
   }, [rooms, allRooms, user]);
 
   const onExit = () => {
-    // let temp = [...rooms];
-    // let temp1 = temp.map((item, i) => {
-    //   if (item.id == room.id) {
-    //     let members = [...item.members];
-    //     let index =
-    //       user &&
-    //       members.filter((ele, j) => {
-    //         if (ele._id == user._id) {
-    //           return j;
-    //         }
-    //       });
-    //     members.splice(index[0], 1);
-    //     return { ...item, members: [...members] };
-    //   }
-    //   return item;
-    // });
-    // setRooms(temp1);
-    //console.log(rooms, temp1);
     let temprooms = [...allRooms];
     let updatedRoom = {};
     let tempRooms = temprooms.map((item, i) => {
@@ -103,26 +72,7 @@ export default function ChatComponent() {
     navigate(-1);
   };
 
-  // console.log(room);
-
   const SendMessage = () => {
-    // let temp = [...rooms];
-    // let temp1 =
-    //   user &&
-    //   temp.map((item, i) => {
-    //     if (item.id == room.id) {
-    //       let chatMessages = [...item.chatMessages];
-    //       chatMessages.push({
-    //         fromID: user.name,
-    //         message: message,
-    //         time: moment().format('DD-MMMM-YYYY hh:mm A'),
-    //       });
-    //       return { ...item, chatMessages: [...chatMessages] };
-    //     }
-    //     return item;
-    //   });
-    // setRooms(temp1);
-
     let temprooms = [...allRooms];
     let updatedRoom = {};
     let tempRooms =
@@ -143,7 +93,6 @@ export default function ChatComponent() {
     updateRoomById(room._id, updatedRoom)
       .then((result) => {
         setAllRooms(tempRooms);
-        console.log(result);
       })
       .catch((err) => console.log(err));
 
@@ -152,11 +101,9 @@ export default function ChatComponent() {
   };
 
   const onEmojiClick = (event, emojiObject) => {
-    console.log(emojiObject);
     setMessage(`${message}${emojiObject.emoji}`);
   };
 
-  //console.log(user);
   return (
     <div>
       <div
@@ -212,7 +159,6 @@ export default function ChatComponent() {
           className="center input-area"
           id="input"
           style={{
-            //position: '-webkit-sticky',
             position: 'fixed',
             bottom: '10px',
             zIndex: 1,
@@ -223,8 +169,6 @@ export default function ChatComponent() {
           <div>
             <div
               style={{
-                // position: 'fixed',
-                // bottom: '10px',
                 display: 'flex',
                 gap: '2px',
                 alignItems: 'center',
@@ -261,22 +205,6 @@ export default function ChatComponent() {
                 variant="filled"
                 className="text-field"
               />
-              {/* <textarea
-              rows="2"
-              cols="30"
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-              }}
-              // onKeyPress={(event) => {
-              //   const keyCode = event.keyCode;
-              //   console.log(keyCode);
-              //   if (message !== '' && keyCode === 13) {
-              //     SendMessage();
-              //   }
-              // }}
-              className="text-area"
-            /> */}
 
               <Link
                 to="input"

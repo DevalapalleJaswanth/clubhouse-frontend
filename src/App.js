@@ -89,7 +89,7 @@ export default function App() {
       })
       .catch((err) => console.log(err));
   }, []);
-  console.log(allRooms);
+  // console.log(allRooms);
   return (
     <div>
       <ClubHouseContext.Provider

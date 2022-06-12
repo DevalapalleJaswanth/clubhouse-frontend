@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { ClubHouseContext } from '../ClubHouseContext';
+import { ClubHouseContext, getAllRooms } from '../ClubHouseContext';
 import uuid from 'react-uuid';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-scroll';
-import { createRoom } from '../Services';
+import { createRoom, getAllRooms } from '../Services';
 import Picker from 'emoji-picker-react';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 export default function RoomsMakingComponent({ setShowForm }) {
@@ -15,7 +15,7 @@ export default function RoomsMakingComponent({ setShowForm }) {
     members: [],
     chatMessages: [],
   });
-  const { user, setUser, rooms, setRooms } = useContext(ClubHouseContext);
+  const { user, setUser, allRooms, setAllRooms } = useContext(ClubHouseContext);
   const [showEmojiPanel, setshowEmojiPanel] = useState(false);
 
   const onEmojiClick = (event, emojiObject) => {
@@ -23,15 +23,8 @@ export default function RoomsMakingComponent({ setShowForm }) {
     setName(`${name}${emojiObject.emoji}`);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (name !== '') {
-      let temp = { ...room };
-      temp.creatorID = user && user.name;
-      temp.name = name;
-      temp.id = uuid();
-      setRoom({ ...temp });
-      setRooms([...rooms, { ...temp }]);
-      setShowForm(false);
       let tempRoom = {
         name: name,
         creator: user && user.name,
@@ -39,22 +32,21 @@ export default function RoomsMakingComponent({ setShowForm }) {
         members: [],
         chatMessages: [],
       };
+
       createRoom(tempRoom)
-        .then((result) => console.log(result))
+        .then((result) => {
+          console.log(result);
+          if (result.status == 200 || result.status == 201)
+            setAllRooms([...allRooms, result.data]);
+        })
         .catch((err) => console.log(err));
+
+      setShowForm(false);
     }
   };
   return (
     <div className="center" id="input" style={{ padding: '10px' }}>
       <div>
-        {/* <input
-          type="text"
-          value={name}
-          id="name"
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-        /> */}
         <div className="center">
           <InsertEmoticonIcon
             style={{
