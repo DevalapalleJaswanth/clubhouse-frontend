@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import Picker from 'emoji-picker-react';
 import { Link } from 'react-scroll';
-import { getUserById } from '../Services.js';
+import { getUserById, updateRoomById } from '../Services.js';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 export default function ChatComponent() {
   const [message, setMessage] = useState('');
@@ -15,22 +15,34 @@ export default function ChatComponent() {
   const params = useParams();
   const { search } = useLocation();
   let id = search.substr(1);
-  const { user, setUser, rooms, setRooms } = useContext(ClubHouseContext);
+  const { user, setUser, rooms, setRooms, allRooms, setAllRooms } =
+    useContext(ClubHouseContext);
   const [showEmojiPanel, setshowEmojiPanel] = useState(false);
   console.log(search, id);
   useEffect(() => {
-    let temp =
-      rooms &&
+    // let temp =
+    //   rooms &&
+    //   id &&
+    //   rooms.filter((ele, i) => {
+    //     console.log(ele.id, id);
+    //     if (ele.id == id) {
+    //       return ele;
+    //     }
+    //   });
+    // console.log(temp, 'temp');
+    // if (temp && temp.length > 0) setRoom(temp[0]);
+    //scrollToBottom();
+
+    let temproom =
+      allRooms &&
       id &&
-      rooms.filter((ele, i) => {
-        console.log(ele.id, id);
-        if (ele.id == id) {
+      allRooms.filter((ele, i) => {
+        if (ele._id == id) {
           return ele;
         }
       });
-    console.log(temp, 'temp');
-    if (temp && temp.length > 0) setRoom(temp[0]);
-    //scrollToBottom();
+    console.log(temproom, 'temp');
+    if (temproom && temproom.length > 0) setRoom(temproom[0]);
 
     !user &&
       getUserById(params.id)
@@ -42,12 +54,31 @@ export default function ChatComponent() {
           }
         })
         .catch((err) => console.log(err));
-  }, [rooms, user]);
+  }, [rooms, allRooms, user]);
 
   const onExit = () => {
-    let temp = [...rooms];
-    let temp1 = temp.map((item, i) => {
-      if (item.id == room.id) {
+    // let temp = [...rooms];
+    // let temp1 = temp.map((item, i) => {
+    //   if (item.id == room.id) {
+    //     let members = [...item.members];
+    //     let index =
+    //       user &&
+    //       members.filter((ele, j) => {
+    //         if (ele._id == user._id) {
+    //           return j;
+    //         }
+    //       });
+    //     members.splice(index[0], 1);
+    //     return { ...item, members: [...members] };
+    //   }
+    //   return item;
+    // });
+    // setRooms(temp1);
+    //console.log(rooms, temp1);
+    let temprooms = [...allRooms];
+    let updatedRoom = {};
+    let tempRooms = temprooms.map((item, i) => {
+      if (item._id == room._id) {
         let members = [...item.members];
         let index =
           user &&
@@ -57,34 +88,65 @@ export default function ChatComponent() {
             }
           });
         members.splice(index[0], 1);
+        updatedRoom = { ...item, members: [...members] };
         return { ...item, members: [...members] };
       }
       return item;
     });
-    setRooms(temp1);
-    //console.log(rooms, temp1);
+    updateRoomById(room._id, updatedRoom)
+      .then((result) => {
+        setAllRooms(tempRooms);
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
+
     navigate(-1);
   };
 
   // console.log(room);
 
   const SendMessage = () => {
-    let temp = [...rooms];
-    let temp1 =
+    // let temp = [...rooms];
+    // let temp1 =
+    //   user &&
+    //   temp.map((item, i) => {
+    //     if (item.id == room.id) {
+    //       let chatMessages = [...item.chatMessages];
+    //       chatMessages.push({
+    //         fromID: user.name,
+    //         message: message,
+    //         time: moment().format('DD-MMMM-YYYY hh:mm A'),
+    //       });
+    //       return { ...item, chatMessages: [...chatMessages] };
+    //     }
+    //     return item;
+    //   });
+    // setRooms(temp1);
+
+    let temprooms = [...allRooms];
+    let updatedRoom = {};
+    let tempRooms =
       user &&
-      temp.map((item, i) => {
-        if (item.id == room.id) {
+      temprooms.map((item, i) => {
+        if (item._id == room._id) {
           let chatMessages = [...item.chatMessages];
           chatMessages.push({
-            fromID: user.name,
+            fromID: user,
             message: message,
             time: moment().format('DD-MMMM-YYYY hh:mm A'),
           });
+          updatedRoom = { ...item, chatMessages: [...chatMessages] };
           return { ...item, chatMessages: [...chatMessages] };
         }
         return item;
       });
-    setRooms(temp1);
+    updateRoomById(room._id, updatedRoom)
+      .then((result) => {
+        setAllRooms(tempRooms);
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
+
     setMessage('');
     setshowEmojiPanel(false);
   };
@@ -122,19 +184,19 @@ export default function ChatComponent() {
               <div
                 key={i}
                 style={{
-                  position: user && ele.fromID == user.name && 'relative',
-                  left: user && ele.fromID == user.name && '60%',
+                  position: user && ele.fromID._id == user._id && 'relative',
+                  left: user && ele.fromID._id == user._id && '60%',
                 }}
                 className="message"
               >
                 <div className="message-head">
-                  {user && ele.fromID === user.name ? 'You' : ele.fromID}
+                  {user && ele.fromID._id == user._id ? 'You' : ele.fromID.name}
                 </div>
                 <div
                   className="message-body"
                   style={{
                     background:
-                      user && ele.fromID == user.name
+                      user && ele.fromID._id == user._id
                         ? 'rgb(16, 4, 128)'
                         : 'rgb(8, 115, 238)',
                   }}

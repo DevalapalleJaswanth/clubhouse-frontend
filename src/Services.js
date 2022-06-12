@@ -59,7 +59,7 @@ export const createRoom = async (data) => {
   }
 };
 
-export const UpdateRoomById = async (id, data) => {
+export const updateRoomById = async (id, data) => {
   try {
     let res = await axios.post(`${roomURL}${id}`, { ...data });
     return res;

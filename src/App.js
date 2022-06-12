@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.css';
 import { ClubHouseContext } from './ClubHouseContext';
+import { getAllRooms } from './Services';
 import {
   RoomsListComponent,
   ChatComponent,
@@ -9,6 +10,7 @@ import {
 import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
 export default function App() {
   const [user, setUser] = useState();
+  const [allRooms, setAllRooms] = useState();
   const [rooms, setRooms] = useState([
     {
       id: 1,
@@ -80,9 +82,19 @@ export default function App() {
       ],
     },
   ]);
+  useEffect(() => {
+    getAllRooms()
+      .then((result) => {
+        setAllRooms(result.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  console.log(allRooms);
   return (
     <div>
-      <ClubHouseContext.Provider value={{ rooms, setRooms, user, setUser }}>
+      <ClubHouseContext.Provider
+        value={{ rooms, setRooms, user, setUser, allRooms, setAllRooms }}
+      >
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LoginComponent />} />
