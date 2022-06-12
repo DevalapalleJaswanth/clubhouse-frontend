@@ -50,6 +50,15 @@ export const getAllRooms = async () => {
   }
 };
 
+export const createRoom = async (data) => {
+  try {
+    let res = await axios.post(`${roomURL}`, { ...data });
+    return res;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const UpdateRoomById = async (id, data) => {
   try {
     let res = await axios.post(`${roomURL}${id}`, { ...data });

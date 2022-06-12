@@ -4,6 +4,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import moment from 'moment';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
+//import Picker from 'emoji-picker-react';
 //import ScrollToBottom from 'react-scroll-to-bottom';
 import { Link } from 'react-scroll';
 import { getUserById } from '../Services.js';
@@ -13,19 +14,20 @@ export default function ChatComponent() {
   const navigate = useNavigate();
   const params = useParams();
   const { search } = useLocation();
-  let id = +search[1];
+  let id = search.substr(1);
   const { user, setUser, rooms, setRooms } = useContext(ClubHouseContext);
-  console.log(search);
+  console.log(search, id);
   useEffect(() => {
     let temp =
       rooms &&
       id &&
       rooms.filter((ele, i) => {
+        console.log(ele.id, id);
         if (ele.id == id) {
           return ele;
         }
       });
-    //console.log(temp, 'temp');
+    console.log(temp, 'temp');
     if (temp && temp.length > 0) setRoom(temp[0]);
     //scrollToBottom();
 
@@ -106,7 +108,7 @@ export default function ChatComponent() {
         </span>
       </div>
       <div className="chat-window">
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', marginBottom: '20px' }}>
           {room &&
             room.chatMessages &&
             room.chatMessages.map((ele, i) => (
