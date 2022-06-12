@@ -4,7 +4,8 @@ import uuid from 'react-uuid';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-scroll';
 import { createRoom } from '../Services';
-//import Picker from 'emoji-picker-react';
+import Picker from 'emoji-picker-react';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 export default function RoomsMakingComponent({ setShowForm }) {
   const [name, setName] = useState('');
   const [room, setRoom] = useState({
@@ -15,6 +16,12 @@ export default function RoomsMakingComponent({ setShowForm }) {
     chatMessages: [],
   });
   const { user, setUser, rooms, setRooms } = useContext(ClubHouseContext);
+  const [showEmojiPanel, setshowEmojiPanel] = useState(false);
+
+  const onEmojiClick = (event, emojiObject) => {
+    console.log(emojiObject);
+    setName(`${name}${emojiObject.emoji}`);
+  };
 
   const handleSubmit = () => {
     if (name !== '') {
@@ -48,18 +55,33 @@ export default function RoomsMakingComponent({ setShowForm }) {
             setName(e.target.value);
           }}
         /> */}
-        <TextField
-          id="outlined-textarea"
-          label=""
-          placeholder="Room Name"
-          multiline
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          variant="filled"
-          className="text-field"
-        />
+        <div className="center">
+          <InsertEmoticonIcon
+            style={{
+              width: '50px',
+              height: '50px',
+              color: 'white',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              setshowEmojiPanel(!showEmojiPanel);
+            }}
+          />
+          <TextField
+            id="outlined-textarea"
+            label=""
+            placeholder="Room Name"
+            multiline
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            variant="filled"
+            className="text-field"
+          />
+        </div>
+        <br />
+        {showEmojiPanel && <Picker onEmojiClick={onEmojiClick} />}
         <br />
         <br />
         <Link to="input" spy={true} smooth={true}>

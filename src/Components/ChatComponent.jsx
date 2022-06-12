@@ -4,10 +4,10 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import moment from 'moment';
 import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
-//import Picker from 'emoji-picker-react';
-//import ScrollToBottom from 'react-scroll-to-bottom';
+import Picker from 'emoji-picker-react';
 import { Link } from 'react-scroll';
 import { getUserById } from '../Services.js';
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 export default function ChatComponent() {
   const [message, setMessage] = useState('');
   const [room, setRoom] = useState();
@@ -16,6 +16,7 @@ export default function ChatComponent() {
   const { search } = useLocation();
   let id = search.substr(1);
   const { user, setUser, rooms, setRooms } = useContext(ClubHouseContext);
+  const [showEmojiPanel, setshowEmojiPanel] = useState(false);
   console.log(search, id);
   useEffect(() => {
     let temp =
@@ -85,6 +86,12 @@ export default function ChatComponent() {
       });
     setRooms(temp1);
     setMessage('');
+    setshowEmojiPanel(false);
+  };
+
+  const onEmojiClick = (event, emojiObject) => {
+    console.log(emojiObject);
+    setMessage(`${message}${emojiObject.emoji}`);
   };
 
   //console.log(user);
@@ -139,29 +146,59 @@ export default function ChatComponent() {
             ))}
         </div>
 
-        <div className="center input-area" id="input" style={{ width: '100%' }}>
-          <div
-            style={{
-              position: 'fixed',
-              bottom: '10px',
-              display: 'flex',
-              gap: '5px',
-              alignItems: 'center',
-            }}
-          >
-            <TextField
-              id="outlined-textarea"
-              label=""
-              placeholder="Type your message"
-              multiline
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
+        <div
+          className="center input-area"
+          id="input"
+          style={{
+            position: '-webkit-sticky',
+            position: 'sticky',
+            bottom: '10px',
+            zIndex: 1,
+            background: 'rgb(224, 246, 253)',
+          }}
+        >
+          <div>
+            <div
+              style={{
+                // position: 'fixed',
+                // bottom: '10px',
+                display: 'flex',
+                gap: '2px',
+                alignItems: 'center',
               }}
-              variant="filled"
-              className="text-field"
-            />
-            {/* <textarea
+            >
+              <Link
+                to="input"
+                spy={true}
+                smooth={true}
+                onClick={() => {
+                  setshowEmojiPanel(!showEmojiPanel);
+                }}
+                style={{
+                  borderRadius: '0.5rem 0 0 0.5rem',
+                }}
+                className="send-button center"
+              >
+                <InsertEmoticonIcon
+                  style={{
+                    width: '30px',
+                    height: '32px',
+                  }}
+                />
+              </Link>
+              <TextField
+                id="outlined-textarea"
+                label=""
+                placeholder="Type your message"
+                multiline
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                }}
+                variant="filled"
+                className="text-field"
+              />
+              {/* <textarea
               rows="2"
               cols="30"
               value={message}
@@ -178,17 +215,21 @@ export default function ChatComponent() {
               className="text-area"
             /> */}
 
-            <Link
-              to="input"
-              spy={true}
-              smooth={true}
-              onClick={() => {
-                message !== '' && SendMessage();
-              }}
-              className="send-button center"
-            >
-              <SendIcon />
-            </Link>
+              <Link
+                to="input"
+                spy={true}
+                smooth={true}
+                onClick={() => {
+                  message !== '' && SendMessage();
+                }}
+                className="send-button center"
+              >
+                <SendIcon />
+              </Link>
+            </div>
+            {showEmojiPanel && (
+              <Picker onEmojiClick={onEmojiClick} style={{ width: '100%' }} />
+            )}
           </div>
         </div>
       </div>
