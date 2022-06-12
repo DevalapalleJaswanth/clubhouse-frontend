@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { ClubHouseContext } from '../ClubHouseContext';
 import uuid from 'react-uuid';
+import TextField from '@mui/material/TextField';
 export default function RoomsMakingComponent({ setShowForm }) {
   const [name, setName] = useState('');
   const [room, setRoom] = useState({
@@ -14,7 +15,7 @@ export default function RoomsMakingComponent({ setShowForm }) {
   const handleSubmit = () => {
     if (name !== '') {
       let temp = { ...room };
-      temp.creatorID = user.id;
+      temp.creatorID = user && user.name;
       temp.name = name;
       temp.id = uuid();
       setRoom({ ...temp });
@@ -25,18 +26,39 @@ export default function RoomsMakingComponent({ setShowForm }) {
   return (
     <div>
       <div>
-        <input
+        {/* <input
           type="text"
           value={name}
           id="name"
           onChange={(e) => {
             setName(e.target.value);
           }}
+        /> */}
+        <TextField
+          id="outlined-textarea"
+          label=""
+          placeholder="Room Name"
+          multiline
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          variant="filled"
+          className="text-field"
         />
         <br />
         <button
           onClick={() => {
             handleSubmit();
+          }}
+          style={{
+            width: '200px',
+            padding: '3px 8px',
+            borderRadius: '0.8rem',
+            background: 'grey',
+            color: 'white',
+            border: '1px solid white',
+            fontSize: '20px',
           }}
         >
           Create Room

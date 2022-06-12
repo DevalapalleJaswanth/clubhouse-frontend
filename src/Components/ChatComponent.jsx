@@ -3,6 +3,7 @@ import { ClubHouseContext } from '../ClubHouseContext';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import moment from 'moment';
 import TextField from '@mui/material/TextField';
+import SendIcon from '@mui/icons-material/Send';
 //import ScrollToBottom from 'react-scroll-to-bottom';
 import { Link } from 'react-scroll';
 import { getUserById } from '../Services.js';
@@ -38,7 +39,7 @@ export default function ChatComponent() {
           }
         })
         .catch((err) => console.log(err));
-  }, [rooms]);
+  }, [rooms, user]);
 
   const onExit = () => {
     let temp = [...rooms];
@@ -136,24 +137,27 @@ export default function ChatComponent() {
             ))}
         </div>
 
-        <div className="center" id="input">
+        <div className="center input-area" id="input" style={{ width: '100%' }}>
           <div
             style={{
               position: 'fixed',
               bottom: '10px',
               display: 'flex',
+              gap: '5px',
+              alignItems: 'center',
             }}
           >
             <TextField
-              id="filled-multiline-flexible"
-              label="Multiline"
+              id="outlined-textarea"
+              label=""
+              placeholder="Type your message"
               multiline
-              maxRows={4}
-              value={value}
+              value={message}
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
               variant="filled"
+              className="text-field"
             />
             {/* <textarea
               rows="2"
@@ -179,9 +183,9 @@ export default function ChatComponent() {
               onClick={() => {
                 message !== '' && SendMessage();
               }}
-              className="send-button"
+              className="send-button center"
             >
-              Send
+              <SendIcon />
             </Link>
           </div>
         </div>

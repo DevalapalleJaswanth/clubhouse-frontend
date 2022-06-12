@@ -26,14 +26,6 @@ export default function RoomsListComponent() {
   return (
     <div className="center room-window">
       <div>
-        <button
-          onClick={() => {
-            setShowForm(!ShowForm);
-          }}
-        >
-          Room +
-        </button>
-
         {rooms &&
           rooms.map((room, i) => (
             <div key={i} className="card">
@@ -51,12 +43,37 @@ export default function RoomsListComponent() {
               </div>
             </div>
           ))}
+
+        <div className="center">
+          <div
+            style={{
+              position: 'fixed',
+              bottom: '10px',
+              background: 'grey',
+              padding: '20px 100%',
+            }}
+          >
+            <button
+              onClick={() => {
+                setShowForm(!ShowForm);
+              }}
+              style={{
+                width: '100px',
+                padding: '3px 8px',
+                borderRadius: '0.8rem',
+                background: 'grey',
+                color: 'white',
+                border: '1px solid white',
+              }}
+            >
+              Room +
+            </button>
+            {ShowForm === true && (
+              <RoomsMakingComponent setShowForm={setShowForm} />
+            )}
+          </div>
+        </div>
       </div>
-      <>
-        {ShowForm === true && (
-          <RoomsMakingComponent setShowForm={setShowForm} />
-        )}
-      </>
     </div>
   );
 }

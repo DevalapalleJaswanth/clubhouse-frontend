@@ -53,13 +53,15 @@ div {
 }
 
 .send-button {
-  border: 1px solid black;
+  border: 1px solid white;
   text-align: center;
   padding: 10px;
   cursor: pointer;
   background: rgb(8, 115, 238);
   color: white;
   border-radius: 0 0.5rem 0.5rem 0;
+  width: 30px;
+  height: 33px;
 }
 .text-area {
   border-radius: 0.5rem 0.5rem 0;
@@ -91,10 +93,21 @@ div {
 .card:hover {
   transform: scale(1.02);
 }
+
+.input-area {
+  background: rgb(252, 254, 255);
+}
+
+.text-field {
+  width: 900px;
+}
 @media (max-width: 1000px) {
   .card {
     width: 900px;
     border: 1px solid white;
+  }
+  .text-field {
+    width: 900px;
   }
 }
 
@@ -103,6 +116,9 @@ div {
     width: 600px;
     border: 1px solid white;
   }
+  .text-field {
+    width: 600px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -110,12 +126,18 @@ div {
     width: 300px;
     border: 1px solid white;
   }
+  .text-field {
+    width: 300px;
+  }
 }
 
 @media (max-width: 300px) {
   .card {
     width: 200px;
     border: 1px solid white;
+  }
+  .text-field {
+    width: 150px;
   }
 }
 
