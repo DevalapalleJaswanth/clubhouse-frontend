@@ -123,7 +123,7 @@ export default function ChatComponent() {
                 key={i}
                 style={{
                   position: user && ele.fromID == user.name && 'relative',
-                  left: user && ele.fromID == user.name && '68%',
+                  left: user && ele.fromID == user.name && '60%',
                 }}
                 className="message"
               >
@@ -150,11 +150,12 @@ export default function ChatComponent() {
           className="center input-area"
           id="input"
           style={{
-            position: '-webkit-sticky',
-            position: 'sticky',
+            //position: '-webkit-sticky',
+            position: 'fixed',
             bottom: '10px',
             zIndex: 1,
             background: 'rgb(224, 246, 253)',
+            borderRadius: '0.5rem',
           }}
         >
           <div>
@@ -227,9 +228,7 @@ export default function ChatComponent() {
                 <SendIcon />
               </Link>
             </div>
-            {showEmojiPanel && (
-              <Picker onEmojiClick={onEmojiClick} style={{ width: '100%' }} />
-            )}
+            {showEmojiPanel && <Picker onEmojiClick={onEmojiClick} />}
           </div>
         </div>
       </div>
