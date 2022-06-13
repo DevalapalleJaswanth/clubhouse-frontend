@@ -39,7 +39,7 @@ export default function RoomsListComponent() {
     updateRoomById(room._id, updatedRoom)
       .then((result) => {
         setAllRooms(tempRooms);
-        console.log(result);
+        console.log(result, 'members update');
       })
       .catch((err) => console.log(err));
 
@@ -68,6 +68,7 @@ export default function RoomsListComponent() {
                 </div>
               </div>
             ))}
+          <div id="input"> </div>
         </div>
         <div className="center" style={{ margin: '50px' }}>
           <div
@@ -96,7 +97,7 @@ export default function RoomsListComponent() {
             </button>
 
             {ShowForm === true && (
-              <RoomsMakingComponent setShowForm={setShowForm} />
+              <RoomsMakingComponent setShowForm={setShowForm} onJoin={onJoin} />
             )}
           </div>
         </div>

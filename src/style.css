@@ -8,7 +8,7 @@ div {
 .chat-window {
   background-color: rgb(224, 246, 253);
   padding: 10px;
-  min-height: 100vh;
+  min-height: 75vh;
 }
 .banner {
   background: rgb(8, 115, 238);

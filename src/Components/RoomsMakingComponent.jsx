@@ -3,10 +3,12 @@ import { ClubHouseContext, getAllRooms } from '../ClubHouseContext';
 import uuid from 'react-uuid';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-scroll';
-import { createRoom, getAllRooms } from '../Services';
+import { createRoom, getAllRooms, updateRoomById } from '../Services';
 import Picker from 'emoji-picker-react';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
-export default function RoomsMakingComponent({ setShowForm }) {
+import { useNavigate, useParams } from 'react-router-dom';
+export default function RoomsMakingComponent({ setShowForm, onJoin }) {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [room, setRoom] = useState({
     id: '',
@@ -35,12 +37,25 @@ export default function RoomsMakingComponent({ setShowForm }) {
 
       createRoom(tempRoom)
         .then((result) => {
-          console.log(result);
-          if (result.status == 200 || result.status == 201)
-            setAllRooms([...allRooms, result.data]);
+          console.log(result, 'room making');
+          if (result.status == 200 || result.status == 201) {
+            //setAllRooms([...allRooms, result.data]);
+            console.log(user);
+            let members = [...result.data.members];
+            members.push(user);
+            let updatedRoom = { ...result.data, members: [...members] };
+            updateRoomById(result.data._id, updatedRoom)
+              .then((res) => {
+                setAllRooms([...allRooms, { ...updatedRoom }]);
+                console.log(res, 'members update');
+              })
+              .catch((err) => console.log(err));
+
+            //setShowForm(false);
+            navigate(`/room/${user && user._id}?${result.data._id}`);
+          }
         })
         .catch((err) => console.log(err));
-
       setShowForm(false);
     }
   };

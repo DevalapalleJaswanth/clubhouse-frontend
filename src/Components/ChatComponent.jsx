@@ -123,8 +123,11 @@ export default function ChatComponent() {
           Exit
         </span>
       </div>
-      <div className="chat-window">
-        <div style={{ position: 'relative', marginBottom: '20px' }}>
+      <div>
+        <div
+          style={{ position: 'relative', marginBottom: '0px' }}
+          className="chat-window"
+        >
           {room &&
             room.chatMessages &&
             room.chatMessages.map((ele, i) => (
@@ -153,15 +156,16 @@ export default function ChatComponent() {
                 <div className="message-foot">{ele.time}</div>
               </div>
             ))}
+          <div id="input"> </div>
         </div>
 
         <div
           className="center input-area"
-          id="input"
           style={{
-            position: 'fixed',
-            bottom: '10px',
+            position: 'sticky',
+            bottom: '0px',
             zIndex: 1,
+            padding: '10px',
             background: 'rgb(224, 246, 253)',
             borderRadius: '0.5rem',
           }}
