@@ -1,22 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { signIn } from '../Services';
+import { signUp } from '../Services';
 import { useNavigate } from 'react-router-dom';
 import { ClubHouseContext } from '../ClubHouseContext';
 
-const LoginComponent = () => {
+const RegisterComponent = () => {
   const navigate = useNavigate();
+  const [name, setName] = useState();
+  const [mail, setMail] = useState();
+  const [password, setPassword] = useState();
   const { setUser } = useContext(ClubHouseContext);
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Register</h2>
       <Formik
         initialValues={{
-          mail: '',
-          password: '',
+          name: name || '',
+          mail: mail || '',
+          password: password || '',
         }}
         validate={(values) => {
           const errors = {};
+          if (!values.name) {
+            errors.name = '**Required';
+          }
           if (!values.mail) {
             errors.mail = '**Required';
           }
@@ -27,12 +34,16 @@ const LoginComponent = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting }) => {
-          signIn(values)
+          signUp(values)
             .then((result) => {
-              if (result.status == 200) {
+              console.log(result);
+              if (result.status == 200 || result.status == 201) {
                 setUser(result.data);
                 navigate(`/rooms/${result.data._id}`);
-              } else alert('Please enter correct username or password');
+              } else
+                alert(
+                  'entered mail may not exist or data entered is already in use'
+                );
             })
             .catch((err) => console.log(err));
         }}
@@ -41,6 +52,22 @@ const LoginComponent = () => {
           <Form>
             <table>
               <tbody>
+                <tr>
+                  <th>Name: </th>
+                  <td>
+                    <Field
+                      type="text"
+                      name="name"
+                      placeholder="Name please"
+                      style={{ height: '23px', borderRadius: '0.5rem' }}
+                    />
+                    <ErrorMessage
+                      name="name"
+                      component="div"
+                      style={{ color: 'red' }}
+                    />
+                  </td>
+                </tr>
                 <tr>
                   <th>Email: </th>
                   <td>
@@ -83,16 +110,8 @@ const LoginComponent = () => {
           </Form>
         )}
       </Formik>
-      New User?{' '}
-      <button
-        onClick={() => {
-          navigate('/Register');
-        }}
-      >
-        SignUp
-      </button>
     </div>
   );
 };
 
-export default LoginComponent;
+export default RegisterComponent;

@@ -6,6 +6,7 @@ import {
   RoomsListComponent,
   ChatComponent,
   LoginComponent,
+  RegisterComponent,
 } from './Components/index';
 import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
 export default function App() {
@@ -98,6 +99,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LoginComponent />} />
+            <Route path="/Register" element={<RegisterComponent />} />
             <Route path={`/rooms/:id`} element={<RoomsListComponent />} />
             <Route path={`/room/:id`} element={<ChatComponent />} />
           </Routes>
